@@ -52,7 +52,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
     private static final double SINGULARITY_THRESHOLD = 1e-11;
 
     /** Indicator for using LU decomposition. */
-    private boolean useLU = true;
+    private final boolean useLU;
 
     /**
      * Creates a Gauss Newton optimizer.
@@ -70,7 +70,7 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
      * @param useLU if {@code true} the {@link LUDecomposition} will be used to solve the
      *              normal equations. Otherwise the {@link QRDecomposition} will be used.
      */
-    public GaussNewtonOptimizer(boolean useLU) {
+    public GaussNewtonOptimizer(final boolean useLU) {
         this.useLU = useLU;
     }
 
@@ -85,30 +85,11 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
     }
 
     /**
-     * Creates a bare-bones instance.
-     * Several calls to {@code withXxx} methods are necessary to obtain
-     * an object with all necessary fields set to sensible values.
-     * <br/>
-     * The default for the algorithm is to solve the normal equations
-     * using LU decomposition.
-     *
-     * @return an instance of this class.
-     */
-    public static GaussNewtonOptimizer create() {
-        return new GaussNewtonOptimizer();
-    }
-
-    /**
      * @param useLU Whether to use LU decomposition.
      * @return this instance.
      */
-    public GaussNewtonOptimizer withLU(boolean useLU) {
-        this.useLU = useLU;
-        return self();
-    }
-
-    private GaussNewtonOptimizer self() {
-        return this;
+    public GaussNewtonOptimizer withLU(final boolean useLU) {
+        return new GaussNewtonOptimizer(useLU);
     }
 
     public Optimum optimize(final LeastSquaresProblem lsp) {
@@ -210,17 +191,6 @@ public class GaussNewtonOptimizer implements LeastSquaresOptimizer {
         return "GaussNewtonOptimizer{" +
                 "useLU=" + useLU +
                 '}';
-    }
-
-    /** Adapat an evaluation to a point vector value pair.
-     *
-     * TODO possibly replace PointVectorValuePair with Evaluation.
-     *
-     * @param e the evaluation
-     * @return a pair view of the evaluation
-     */
-    private static PointVectorValuePair pairOf(final Evaluation e) {
-        return new PointVectorValuePair(e.getPoint(), e.computeValue());
     }
 
 }
