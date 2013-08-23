@@ -19,6 +19,7 @@ package org.apache.commons.math3.fitting.leastsquares;
 
 import org.apache.commons.math3.exception.ConvergenceException;
 import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.fitting.leastsquares.GaussNewtonOptimizer.Decomposition;
 import org.apache.commons.math3.optim.SimpleVectorValueChecker;
 import org.junit.Test;
 
@@ -43,12 +44,12 @@ public class GaussNewtonOptimizerTest
 
     @Test
     public void testGaussNewtonLU() throws Exception {
-        check(new GaussNewtonOptimizer(true));
+        check(new GaussNewtonOptimizer(Decomposition.LU));
     }
 
     @Test
     public void testGaussNewtonQR() throws Exception {
-        check(new GaussNewtonOptimizer(false));
+        check(new GaussNewtonOptimizer(Decomposition.QR));
     }
 
     @Override
